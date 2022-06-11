@@ -88,13 +88,13 @@ def calculateAngleData(angle):
 
 
 def calculateAmount(a, b, c, x, y):
-    return (((x / width) - 0.5) * a + ((y / height) + 0.5) * b) / c
+    return (a * x / width + b * y / height) / c
 
 
 if __name__ == "__main__":
     colorA = hex2rgb(colorA)
     colorB = hex2rgb(colorB)
-    for i in tqdm(range(0, 360, 45)):
+    for i in tqdm(range(45, 46, 1)):
         a, b, c = calculateAngleData(i)
 
         g_img = Image.new(mode="RGBA", size=(width, height))
