@@ -1,3 +1,4 @@
 images/
 code/
 ./idea
+__pycache__/
