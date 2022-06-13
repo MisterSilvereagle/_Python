@@ -82,39 +82,40 @@ def mix2colors_cmyk(colorA: list, colorB: list, amount: float):
 def calculateAngleData(angle):
     angle %= 360
     _a = sin(pi * angle / 180)
-    _b = sin(pi * (angle / 180 + 0.5))
-    _c = 1 / max(abs(cos(pi * angle / 180)), abs(sin(pi * angle / 180)))
+    _b = cos(pi * angle / 180)
+    _c = max(abs(cos(pi * angle / 180)), abs(sin(pi * angle / 180)))
     return [_a, _b, _c]
 
 
 def calculateAmount(a, b, c, x, y):
-    return (a * x / width + b * y / height) / c
+    return (a * x / width + b * y / height) * c + 0.5
 
 
 if __name__ == "__main__":
     colorA = hex2rgb(colorA)
     colorB = hex2rgb(colorB)
-    for i in tqdm(range(45, 46, 1)):
+    for i in tqdm(range(0, 360, 1)):
         a, b, c = calculateAngleData(i)
+        print(f'{i}: {a}, {b}, {c}')
 
-        g_img = Image.new(mode="RGBA", size=(width, height))
-
-        for x in range(width):
-            for y in range(height):
-                g_img.putpixel((x, y), tuple(mix2colors_rgb(colorA, colorB, calculateAmount(a, b, c, x, y))))
-
-        # g_img.show()
-        list_imgs.append(g_img)
-
-        del g_img
-
-    if save_gif:
-        list_imgs.pop(0).save("./images/img.gif", format="GIF", append_images=list_imgs, save_all=True, duration=40,
-                              loop=0)
-    else:
-        for img in range(len(list_imgs)):
-            number = '{:>03}'.format(img)
-            list_imgs[img].save(f'./images/{number}.png')
+   #     g_img = Image.new(mode="RGBA", size=(width, height))
+   #
+   #     for x in range(width):
+   #         for y in range(height):
+   #             g_img.putpixel((x, y), tuple(mix2colors_rgb(colorA, colorB, calculateAmount(a, b, c, x, y))))
+   #
+   #     # g_img.show()
+   #     list_imgs.append(g_img)
+   #
+   #     del g_img
+   #
+   # if save_gif:
+   #     list_imgs.pop(0).save("./images/img.gif", format="GIF", append_images=list_imgs, save_all=True, duration=40,
+   #                           loop=0)
+   # else:
+   #     for img in range(len(list_imgs)):
+   #         number = '{:>03}'.format(img)
+   #         list_imgs[img].save(f'./images/{number}.png')
 
     from sys import exit as baum;baum()
 
